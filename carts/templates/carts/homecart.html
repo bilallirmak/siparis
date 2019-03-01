@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+        <style>
+   nav#template-navbar {
+	display: none;
+}
+    .users-log{
+        margin-top:20px;
+    }
+    .tablosag{
+    width: 100px;
+   }
+
+    {#    .sex{float: left;}#}
+    {#    .table-class{#}
+    {#        height: 35px;#}
+    {#        width: 100%;#}
+    {#        margin-bottom: 30px;#}
+            {#border: 1px solid black;#}
+    {#    }#}
+    {#    .cart-total{#}
+    {#        float: right;#}
+    {#        margin-top: -20px;#}
+    {##}
+    {#    }#}
+    {#    .cart-span{#}
+    {#        color: black;#}
+    {#        font-weight: bold;#}
+    {#    }#}
+    {#    .cart-button{#}
+    {#        float: right;#}
+    {#        margin-top: 10px;#}
+    {##}
+    {#    }#}
+    {#    .btn.btn-link{#}
+    {#    font-size: 10px;#}
+    {#    background-color: transparent;#}
+    {#}#}
+    {#    .form-control {#}
+    {#        background-color: transparent !important;#}
+    {#        border: none !important;#}
+    {#    }#}
+
+</style>
+
+    <div class="container">
+{#    <div class="users-log">#}
+            <div class="sepet-title"><h2>Sepet</h2></div>
+{% if cart.items.exists %}
+    <table class="table cart-table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Ürün Adı</th>
+              <th scope="col">Adet</th>
+              <th scope="col">Ürün Fiyatı</th>
+            </tr>
+          </thead>
+          <tbody class="cart-body">
+                  {% for item in cart.items.all %}
+                    <tr class="cart-product">
+                      <th scope="row">{{ forloop.counter}}</th>
+                        <td><a>{{ item.product.title }}</a>
+                        {% include 'carts/snippets/remove-product.html' with product_id=item.product.id %}
+                        {% include 'carts/snippets/cart_q_add.html' with product_id=item.product.id %}
+                        {% include 'carts/snippets/cart_q_remove.html' with product_id=item.product.id %}
+                        </td>
+                      <td>{{item.quantity}}</td>
+                      <td class="tablosag">{{ item.line_total }}</td>
+                        {% endfor %}
+{#                   <small><a href="#"> Sil</a></small>#}
+
+
+            <tr>
+                <td></td>
+              <td></td>
+                <td colspan="2"><b>Genel Toplam: </b> <span class="cart-total">{{cart.total}}₺</span></td>
+            </tr>
+           <tr>
+               <td></td>
+              <td></td>
+
+              <td colspan="2"><a class="btn-sm btn-primary" href="{% url 'cart:checkoutcart' %}">Onayla</a></td>
+            </tr>
+          </tbody>
+    </table>
+{#<table>#}
+{#<table class="sex" style="width:30%">#}
+{#  <tr>#}
+{#    <th>Ürün Adı</th>#}
+{#  </tr>#}
+{#    {% for product in cart.products.all %}#}
+{#  <tr>#}
+{#    <td><a>{{ product.title }} {% include 'carts/snippets/remove-product.html' with product_id=product.id %}</a></td>#}
+{#</tr>#}
+{#{% endfor %}#}
+{#</table>#}
+{##}
+{#<table class="sex" style="width:30%">#}
+{#  <tr>#}
+{#    <th>Adet</th>#}
+{#  </tr>#}
+{#    {% for item in cart.items.all %}#}
+{#  <tr>#}
+{#    <td>{{ item.quantity }}</td>#}
+{#</tr>#}
+{#{% endfor %}#}
+{#</table>#}
+{##}
+{#    <table class="sex" style="width:30%">#}
+{#  <tr>#}
+{#    <th>Fiyat(TL)</th>#}
+{#  </tr>#}
+{#    {% for product in cart.products.all %}#}
+{#  <tr>#}
+{#    <td>{{ product.price }}</td>#}
+{#</tr>#}
+{#{% endfor %}#}
+{#    </table>#}
+{#</table>#}
+{#<table class="table cart-table" >#}
+{#          <thead>#}
+{#            <tr>#}
+{#              <th scope="col">#</th>#}
+{#              <th scope="col">Ürün Adı</th>#}
+{#              <th scope="col">Adet</th>#}
+{#              <th scope="col">Fiyatı</th>#}
+{#            </tr>#}
+{#        </thead> <tbody class="cart-body">#}
+{#    <tr class="cart-product">#}
+{#        <td>{% for item in cart.items.all %}<div class="table-class">{{ forloop.counter}}</div>{% endfor %}</td>#}
+{#        <td>{% for product in cart.items.all %}<div class="table-class"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a>#}
+{#            {% include 'carts/snippets/remove-product.html' with product_id=product.product.id %}#}
+{#            {% include 'carts/snippets/cart_q_add.html' with product_id=item.product.id %}#}
+{#            {% include 'carts/snippets/cart_q_remove.html' with product_id=item.product.id %}#}
+{#        </div>{% endfor %}</td>#}
+{#        <td>{% for item in cart.items.all %}<div class="table-class">{{ item.quantity }}</div>{% endfor %}</td>#}
+{#        <td>{% for item in cart.items.all %}<div class="table-class">{{ item.line_total }}</div>{% endfor %}</td>#}
+{#    </tr>#}
+{#    <div class="cart-total"> <span class="cart-total">Genel Toplam:</span> {{ cart.total }}₺</div>#}
+{#    <div class="cart-button"><a class="btn-sm btn-primary" href="{% url 'cart:checkoutcart' %}">Onayla</a></div>#}
+{#</tbody>#}
+{#</table>#}
+{#    <div class="cart-total"> <span class="cart-span">Genel Toplam:</span> {{ cart.total }}₺</div>#}
+{#    <div class="cart-button"><a class="btn-sm btn-primary" href="{% url 'cart:checkoutcart' %}">Onayla</a></div>#}
+{##}
+{#</table>#}
+    <div class="cart-item-remove-form" style="display:none;">
+        {% include 'carts/snippets/remove-product.html' %}
+    </div>
+
+    {% else %}
+    <table class="table">
+        <tbody>
+            <td><b>Sepet Boş</b></td>
+{#         <div class="padd2">#}
+{#        <h3>Sepet Boş</h3>#}
+{#         </div>#}
+        </tbody>
+    </table>
+    {% endif %}
+    </div>
+{#        </div>#}
+{% endblock %}

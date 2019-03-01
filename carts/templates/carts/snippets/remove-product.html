@@ -1,0 +1,7 @@
+ <form class="form" method="POST" action="{% url 'cart:updatecart' %}" data-endpoint="{% url 'cart:updatecart' %}"> {% csrf_token %}
+    <input class="cart-item-product-id" type="hidden" name="product_id" value="{{ product_id }}"/>
+     <span class="submit-span">
+     <button  type="submit" class="sepetRem" style="padding:0; cursor:pointer;"></button>
+     </span>
+ </form>
+{#onClick="location.reload()"#}

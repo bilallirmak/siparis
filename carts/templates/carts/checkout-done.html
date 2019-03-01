@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <style>
+        nav#template-navbar {
+            display: none;
+        }
+   </style>
+    <div class="container">
+        <div class="sip-log">
+            <div class="sip-log-title"><h3>Bilgilendirme</h3></div>
+            <div class="sip-log-content-ty">
+            <h4>Siparişiniz bize iletilmiştir.</h4>
+                <h4>En kısa sürede teslim edilecektir.</h4>
+                <h4 class="sip-log-thanks">Bizi tercih ettiğiniz için teşekkürler =)</h4>
+            </div>
+            <div class="sip-log-comeback">
+                <a href="{% url 'browse' %}"><div class="sip-log-home"><p>Ana Sayfaya Dön</p></div></a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

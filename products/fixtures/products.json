@@ -1,0 +1,58 @@
+[
+{
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+        "title": "Makarna",
+        "slug": "makarna",
+        "description": "\u00d6\u011frenci makarnas\u0131 de\u011fildir.",
+        "price": "7.00",
+        "image": "products/251595391/251595391.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2018-11-26T14:44:43.489Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+        "title": "Kuru Fas\u00fclye",
+        "slug": "kuru-fasulye",
+        "description": "KUP KURU DE\u011e\u0130LD\u0130R",
+        "price": "10.00",
+        "image": "products/2667032738/2667032738.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2018-11-26T14:44:43.489Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+        "title": "makarna",
+        "slug": "makarna-7jax",
+        "description": "uzun makarna",
+        "price": "12.00",
+        "image": "products/321766924/321766924.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2018-11-26T14:44:43.489Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+        "title": "\u00c7orba",
+        "slug": "corba",
+        "description": "Mercimek \u00e7orbas\u0131",
+        "price": "8.00",
+        "image": "products/426040206/426040206.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2018-11-26T23:17:40.667Z"
+    }
+}
+]

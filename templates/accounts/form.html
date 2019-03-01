@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <style>
+body {
+    background-image: url(/static/img/wow.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+    </style>
+    {% if not request.user.is_authenticated  %}
+        <div class="padd">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="uye-log">
+                    <h1>Giriş Yap</h1>
+                    <form method="POST" enctype="multipart/form-data"><br>
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input class="btn btn-primary" type="submit" value="Giriş Yap">
+    {#                    <input class="btn btn-primary" type="submit" value="{{ title }}">#}
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+        {% else %}
+         <div class="container">
+             <div class="padd2">
+                <a href="{% url "browse" %}"><h1>Ana sayfaya dön</h1></a>
+              </div>
+        </div>
+        {% endif %}
+
+{% endblock %}

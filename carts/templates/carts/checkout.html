@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+    <script>
+
+function myFunction1() {
+    document.getElementById("myDropdown1").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+
+  if (!event.target.matches('.dropbtn1')) {
+
+    var dropdowns1 = document.getElementsByClassName("dropdown-content1");
+  }
+
+  $("#dropdown-content1").empty();
+}
+
+function myFunction2() {
+    document.getElementById("myDropdown2").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+
+  if (!event.target.matches('.dropbtn2')) {
+    var dropdowns1 = document.getElementsByClassName("dropdown-content1");
+  }
+}
+
+</script>
+
+    <style>
+   nav#template-navbar {
+	display: none;
+}
+    .users-log{
+        margin-top:20px;
+    }
+
+</style>
+
+
+
+{% if not billing_profile %}
+    <div class="drop-alan">
+    <div class="drop-contalan">
+    <div class="dropdown1">
+<button onclick="myFunction1()" class="dropbtn1">Üye Girişi</button>
+  <div id="myDropdown1" class="dropdown-content1">
+    <div>{% include "accounts/snippets/form.html" with form=login_form next_url=request.build_absolute_uri title="Giriş Yap" %}
+
+    {% url "account:guestregister" as guestregister %}</div>
+  </div>
+</div>
+
+<div class="dropdown2">
+<button onclick="myFunction2()" class="dropbtn2">Misafir Girişi</button>
+  <div id="myDropdown2" class="dropdown-content1">
+    <div>{% include "accounts/snippets/form.html" with form=guest_form next_url=request.build_absolute_uri title="Misafir Girişi" action_url=guestregister  %}</div>
+  </div>
+</div>
+        </div>
+    </div>
+
+{% else %}
+    {% if not object.shipping_address %}
+        {% if address_qs.exists %}
+                    <div class="container">
+                        <div class="sip-log">
+                            <div class="sip-log-title"><h3>Sipariş Adresi</h3></div>
+                            <div class="sip-log-content">
+                            {% url "checkout_address_reuse" as checkout_address_reuse %}
+                            {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}
+                            </div>
+                            <a href="{% url 'cart:adrescart' %}">Başka bir adres ekle</a>
+                        </div>
+                    </div>
+            {% else %}
+                {% url "checkout_address_create" as checkout_address_create %}
+                {% include "addresses/form.html" with form=address_form next_url=request.build_absolute_uri title="Teslimat Adresi" action_url=checkout_address_create address_type='shipping' %}
+            {% endif %}
+
+{#            <div class="container">#}
+{#                <div class="padd">#}
+{#                    {% url "checkout_address_reuse" as checkout_address_reuse %}#}
+{#                    {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}#}
+{#                </div>#}
+{#        </div>#}
+    {% elif not object.billing_address %}
+            {% if address_qs.exists %}
+                    <div class="container">
+                        <div class="sip-log">
+                            <div class="sip-log-title"><h3>Fatura</h3></div>
+                            <div class="sip-log-content">
+                            {% url "checkout_address_reuse" as checkout_address_reuse %}
+                            {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='billing' action_url=checkout_address_reuse %}
+                            </div>
+                            <a href="{% url 'cart:adrescart' %}">Başka bir adres ekle</a>
+                        </div>
+                    </div>
+            {% else %}
+                    {% url "checkout_address_create" as checkout_address_create %}
+                    {% include "addresses/form.html" with form=address_form next_url=request.build_absolute_uri title="Fatura Adresi" action_url=checkout_address_create address_type='billing' %}
+            {% endif %}
+{#        <div class="container">#}
+{#                <div class="padd">#}
+{#                    {% url "checkout_address_reuse" as checkout_address_reuse %}#}
+{#                    {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='billing' action_url=checkout_address_reuse%}#}
+{##}
+{#                </div>#}
+{#        </div>#}
+    {% else %}
+        <div class="container">
+            <div class="sip-log">
+            <div class="sip-log-title">
+                <h3>Sepeti Onayla</h3>
+            </div>
+            <div class="sip-log-content">
+                <p style="font-family: Tahoma"><b>Sipariş Kodu: </b>{{ object.order_id }}</p> {#  -- {{ object.cart.id }} #}
+
+                <p><b>Sepet: </b>{% for product in object.cart.items.all %}{{ product.product.title}}<b>({{ product.quantity }})</b>{% if not forloop.last %}, {% endif %}{% endfor %} </p>
+                <p><b>Adres: </b>{{ object.shipping_address.get_address }} </p>
+        {#            <p><b style="color: blue;">Sepet Toplamı: </b>{{ object.cart.total }}</p>#}
+        {#            <p><b>Kurye Toplamı: Yok  </b></p> {# {{ object.shipping_total }} #}
+                    <p><b style="color: blue">Sipariş Toplamı: </b>{{ object.total }} TL</p>
+                <form class="form" method="POST" action="">{% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Onayla</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% endblock %}
+

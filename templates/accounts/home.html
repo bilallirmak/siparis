@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+
+            <div class="padd2">
+               <div style="margin-left: 20px; margin-bottom: 20px" ><h1>Hesap</h1><hr/> <h2>{{ request.user.name }}</h2></div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Destek</h3>
+                      </div>
+                      <div class="panel-body">
+                          <div class="list-group">
+                              <a class="list-group-item" href="{% url 'about' %}">Hakkında</a>
+                              <a class="list-group-item" href="{% url 'contact' %}">İletişim</a>
+                          </div>
+
+                      </div>
+                    </div>
+                    </div>
+
+                     <div class="col-md-3">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Fatura</h3>
+                      </div>
+                      <div class="panel-body">
+                           <div class="list-group">
+                               <a class="list-group-item" href="{% url 'orders:list' %}">Siparişler</a>
+                              <a class="list-group-item" href="#">Adresler</a>
+
+                          </div>
+                      </div>
+                    </div>
+                     </div>
+                      <div class="col-md-3">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Profil</h3>
+                      </div>
+                      <div class="panel-body">
+                             <div class="list-group">
+                               <a class="list-group-item" href="#">Bilgilerini Güncelle</a>
+                               <a class="list-group-item" href="#">Şifre Değiştir</a>
+
+
+                          </div>
+
+                      </div>
+                    </div>
+                      </div>
+
+                 <div class="col-md-3">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Tercihler</h3>
+                      </div>
+                      <div class="panel-body">
+                             <div class="list-group">
+                                 <a class="list-group-item" href="#">Email</a>
+                                <a class="list-group-item" href="{% url 'marketing-pref' %}">Email pazarlama tercihleri</a>
+
+                          </div>
+
+                      </div>
+                    </div>
+                      </div>
+
+
+                    <div class="col-md-3">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Geçmiş</h3>
+                      </div>
+                      <div class="panel-body">
+                            <a class="list-group-item" href="{% url 'account:user-product-history' %}">Görüntülenen Ürünler</a>
+                      </div>
+                    </div>
+                      </div>
+
+                </div>
+            </div>
+
+    </div>
+
+
+
+{% endblock %}

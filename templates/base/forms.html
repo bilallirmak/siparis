@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+{% if form %}
+    <div class="padd">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="users-log">
+                   {% if title %} <h1>{{ title }}</h1> {% endif %}
+                        <form method="POST" action="{% if action_url %}{% url 'account:login' %}{% endif %}"
+                              enctype="multipart/form-data"><br>{% csrf_token %}
+                            {% if next_url %}
+                                <input type="hidden" name="next" value="{{ next_url }}"/>
+                            {% endif %}
+                            {{ form|crispy }}
+                            <input class="btn btn-primary" type="submit" value="Kaydet"/>
+                        </form>
+                    </div>
+                 </div>
+            </div>
+         </div>
+    </div>
+{% endif %}
+
+{% endblock %}

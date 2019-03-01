@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <div class="container">
+            <div class="padd2">
+            <div class="sip-log-title">
+                <h3>Sipariş: {{ object.order_id }}</h3>
+            </div>
+            <div class="sip-log-content">
+{#                <p style="font-family: Tahoma"><b>Sipariş Kodu: </b>{{ object.order_id }}</p> {#  -- {{ object.cart.id }} #}
+                <p><b>Sepet: </b>{% for product in object.cart.items.all %}{{ product.product.title}}<b>({{ product.quantity }})</b>{% if not forloop.last %}, {% endif %}{% endfor %} </p>
+                <p><b>Adres: </b>{{ object.shipping_address.get_address }} </p>
+                <p><b style="color: blue">Sipariş Toplamı: </b>{{ object.total }} TL</p>
+                <p><b>Durum: </b>{{ object.get_status }} </p>
+
+        {#            <p><b style="color: blue;">Sepet Toplamı: </b>{{ object.cart.total }}</p>#}
+        {#            <p><b>Kurye Toplamı: Yok  </b></p> {# {{ object.shipping_total }} #}
+
+            </div>
+            </div>
+        </div>
+    
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load crispy_forms_tags %}
+{% if form %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="sip-log">
+                    <div class="sip-log-title"><h3>{{ title }}</h3></div>
+                <div class="sip-log-content">
+                        <form method="POST" action="{% if action_url %} {{ action_url }} {% else %} {% url 'account:login' %}{% endif %}"
+                              enctype="multipart/form-data"><br>{% csrf_token %}
+                            {% if next_url %}
+                                <input type="hidden" name="next" value="{{ next_url }}"/>
+                            {% endif %}
+                            {% if address_type %}
+                                <input type="hidden" name="address_type" value="{{ address_type }}"/>
+                            {% endif %}
+                            {{ form|crispy }}
+                            <input class="btn btn-primary" type="submit" value="Devam Et"/>
+                        </form>
+                </div>
+                    </div>
+                 </div>
+            </div>
+         </div>
+{% endif %}

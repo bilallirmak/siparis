@@ -1,0 +1,15 @@
+<li class="item extra-product">
+    {% if instance.image %}
+        <a rel="prettyPhoto[Group]" href="{{ instance.get_absolute_url }}?iframe=true&height=515&width=450&">
+        <img class="img-responsive" src="{{ instance.image.url }}" >
+    {% endif %}
+        <div class="menu-desc text-center">
+            <span>
+                <h3 class="sabit-desc">{{ instance.title }}</h3>
+                <h3 class="hareket-desc">{{ instance.title }}</h3>
+                <p>Fiyat: {{ instance.price }} TL</p>
+            </span>
+        </div>
+    </a>
+        <div class="spt-ynt">{% include 'products/snippets/update-cart.html' with product=instance cart=cart %}</div>
+</li>

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="padd2">
+                <h1>Siparişler</h1>
+            </div>
+            <table class="table">
+                <thead><th>Sipariş NO</th><th>Tarih</th><th>Durum</th><th>Toplam</th> </thead>
+                <tbody>
+                    {% for object in object_list %}
+                        <tr>
+                            <td><a href="{{ object.get_absolute_url }}"> <b style="font-family: Roboto">{{ object.order_id }}</b></a></td>
+                            <td><b style="font-family: Roboto">{{ object.timestamp }}</b></td>
+                            <td><b style="font-family: Roboto">{{ object.get_status }}</b></td>
+                            <td><b style="font-family: Roboto">{{ object.total }} TL</b></td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="3"><p class="lead">Henüz Sipariş Vermedin</p></td></tr>
+
+                    {% endfor %}
+
+
+
+                </tbody>
+
+
+
+            </table>
+
+
+        </div>
+    </div>
+
+
+{% endblock %}

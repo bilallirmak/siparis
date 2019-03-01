@@ -1,0 +1,8 @@
+ <form class="form" method="POST" action="{% url 'cart:addq' %}" data-endpoint="{% url 'cart:addq' %}"> {% csrf_token %}
+    <input class = "add_qu" type="hidden" name="product_id" value="{{ product_id }}"/>
+
+     <button  type="submit" class="sepetAdd" style="padding:0; cursor:pointer;"></button>
+
+ </form>
+
+{# class="form-product-ajax" #}

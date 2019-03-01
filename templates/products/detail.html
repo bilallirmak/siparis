@@ -1,0 +1,151 @@
+<style>
+   nav#template-navbar {
+	display: none;
+}
+
+    .caption-sepet{
+        position: absolute;
+        right: 2px;
+        top: 2px;
+    }
+
+    .caption-sepet .btn.btn-success {
+        font-size:0px;
+        width:30px;
+        height:30px;
+        border-radius: 0px;
+        margin: 0px;
+        background-color: transparent;
+        background-image: url(/static/img/sp-ekle.png);
+        border: none;
+
+    }
+    .caption-sepet .btn.btn-success:hover {
+        font-size:0px;
+        width:30px;
+        height:30px;
+        border-radius: 0px;
+        margin: 0px;
+        background-color: transparent;
+        background-image: url(/static/img/sp-ekle-hv.png);
+        border: none;
+
+    }
+    .caption-sepet .btn.btn-sm {
+        font-size:0px;
+        width:30px;
+        height:30px;
+        margin: 0px;
+        border-radius: 0px;
+        background-color: transparent;
+        background-image: url(/static/img/sp-cikar.png);
+        border: none;
+    }
+    .caption-sepet .btn.btn-sm:hover {
+        font-size:0px;
+        width:30px;
+        height:30px;
+        border-radius: 0px;
+        margin: 0px;
+        background-color: transparent;
+        background-image: url(/static/img/sp-cikar-hv.png);
+        border: none;
+    }
+</style>
+{% extends 'base.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="urun-detay">
+                <div class="main-area">
+                    <div class="details-area">
+                        <div class="thumbnail">
+                            <img src="{{ object.image.url }}" alt="{{ object.title }} logo">
+                        </div>
+                    </div>
+                    <div class="details-area2">
+                        <div class="caption-sepet">
+                            {% include 'products/snippets/update-cart.html' with product=object cart=cart %}
+                        </div>
+                        <div class="caption">
+                            <h3>{{ object.title }}</h3>
+                            <p>{{ object.description|linebreaksbr}} </p>
+{#          {% if object in cart.products.all %}#}
+{#          <p><a href="#" class="btn btn-primary" role="button">Siprişi Onayla</a><a href="#" class="btn btn-lin" role="button">Sepeten Çıkar</a> </p>#}
+{#            {% else %}#}
+{#           <p> <a href="#" class="btn btn-success" role="button">Sepete Ekle</a></p>#}
+{#          {% endif %}#}
+                        </div>
+                        <div class="caption-button">
+                             <p>Fiyat: {{ object.price|linebreaksbr}} TL</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+
+{#<div class="card">#}
+{##}
+{#<div class="card-title">#}
+{#    <h5 class="card-title">{{ object.title }}</h5>#}
+{#</div>#}
+{#    <div class="card-img">#}
+{##}
+{#            <img class="card-img-top" src="{{ object.image.url }}" alt="{{ object.title }} logo">#}
+{##}
+{#    </div>#}
+{#  <div class="card-body">#}
+{#    <p class="card-text">{{ object.description|linebreaksbr}}</p>#}
+{#  </div>#}
+{##}
+{##}
+{#    <div class="col-12 col-md-6">#}
+{#        <div class="card-body">#}
+{#        {{ cart }}#}
+{#        {% if object in cart.products.all %}#}
+{#        Sepete Eklendi#}
+{#        {% else %}#}
+{#        Sepete Ekle#}
+{#        {% endif %}#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#</div>#}
+
+
+
+{#<div class="row">#}
+{#    <div class="col-12 col-md-6">#}
+{#        <div class="padd3">#}
+{#    <div class='container'>#}
+{#        <div class='row'>#}
+{#    <div class="padd2">#}
+{#           <h1>{{ object.title }}</h1>#}
+{#          {{ object.timestamp|timesince }} önce#}
+{#            {{ object.description|linebreaks }}<br/>#}
+{#            <br/>#}
+{#            <div class="col">#}
+{#            {% if object.image %}#}
+{#                <div class="card-img">#}
+{#                <img src="{{ object.image.url }}" class="img-fluid"/>#}
+{#                </div>#}
+{#                </div>#}
+{#            {% endif %}#}
+{#    </div>#}
+{#    <div class="col-12 col-md-6">#}
+{#        <div class="card-body">#}
+{#        {{ cart }}#}
+{#        {% if object in cart.products.all %}#}
+{#        Sepete Eklendi#}
+{#        {% else %}#}
+{#        Sepete Ekle#}
+{#        {% endif %}#}
+{#        </div>#}
+{#    </div>#}
+{#    </div>#}
+{#        </div>#}
+{#    </div>#}
+{#        </div>#}
+{#</div>#}
+{% endblock %}

@@ -1,0 +1,6 @@
+ <form class="form" method="POST" action="{% url 'cart:removeq' %}" data-endpoint="{% url 'cart:removeq' %}"> {% csrf_token %}
+    <input class = "remove_qu" type="hidden" name="product_id" value="{{ product_id }}"/>
+     <span class="submit-span">
+     <button  type="submit" class="sepetMin " style="padding:0; cursor:pointer;"></button>
+     </span>
+ </form>

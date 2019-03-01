@@ -1,0 +1,16 @@
+ <form class="form-product-ajax" class="form" method="POST" action="{% url 'cart:updatecart' %}" data-endpoint="{% url 'cart:updatecart' %}"> {% csrf_token %}
+    <input class="cart-item-product-id" type="hidden" name="product_id" value="{{ product.id }}"/>
+{#    {% if in_cart %}#}
+{#        <button type="submit" class="btn btn-link btn-sm" style="padding:0; cursor:pointer;" >Sepetten Çıkar</button>#}
+{#    {% else %}#}
+{##}
+{#    {% endif %}#}
+        <span class="submit-span">
+        {% if product in cart.products.all %}
+              <button type="submit" class="btn btn-sm">Sepetten Çıkar</button>
+        {% else %}
+               <button type="submit" class="btn btn-success">Sepete Ekle</button>
+        {% endif %}
+        </span>
+
+    </form>

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <div class="container" id="sayfa-icerik">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+{#        <h1 class="sayfa-title">Günün Yemekleri</h1>#}
+            <div class="pr-wrapper">
+                                        <ul id="pr-list" class="clearfix">
+                                            <li id="data" class="filter" data-filter="all">Tüm Ürünler</li>
+                                            <li id="data"  class="filter" data-filter=".main-course">Ana Yemekler</li>
+                                            <li id="data"  class="filter" data-filter=".extra-product">Yan Ürünler </li>
+                                            <li id="data"  class="filter" data-filter=".soup">Çorbalar</li>
+                                            <li id="data"  class="filter" data-filter=".dessert">Ekstralar</li>
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Yemek Kategorisi Seç
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <li class="filter" data-filter="all"><a class="dropdown-item">Tüm Ürünler</a></li>
+      <li  class="filter" data-filter=".main-course"><a class="dropdown-item">Ana Yemekler</a></li>
+      <li class="filter" data-filter=".extra-product"><a class="dropdown-item">Yan Ürünler</a></li>
+      <li  class="filter" data-filter=".soup"><a class="dropdown-item">Çorbalar</a></li>
+      <li  class="filter" data-filter=".dessert"><a class="dropdown-item">Ekstralar</a></li>
+  </div>
+</div>
+                                        </ul>
+</div>
+    </div>
+    </div>
+    </div>
+
+    <div class='container'>
+        <div class='row'>
+        <div class="col-md-10 col-md-offset-1">
+        <div class="urun-all">
+        <ul id="menu-pricing" class="menu-price">
+        {% for obj in object_list %}
+            {% if obj.category == 'ana-yemek' %}
+                    {% include 'products/snippets/card-et.html' with instance=obj%}
+            {% elif obj.category == 'yan-yemek' %}
+                    {% include 'products/snippets/card-salata.html' with instance=obj%}
+            {% elif obj.category == 'corba' %}
+                    {% include 'products/snippets/card-corba.html' with instance=obj%}
+            {% elif obj.category == 'ekstra' %}
+                    {% include 'products/snippets/card-ekstra.html' with instance=obj%}
+            {% endif %}
+{#            <a href= "{{ obj.get_absolute_url }}"> {{ obj.title }}</a><br/>#}
+        {% endfor %}
+        </ul>
+        </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
+{#{% extends 'base.html' %}#}
+{#""" {% for  %} """"#}
+{#{% block body %}#}
+{##}
+{#    <div class='container'>#}
+{#        <div class='row'>#}
+{#    <div class="urun-all">#}
+{#        {% for obj in tag_queryset %}#}
+{#            #}
+{#                <div class="col">#}
+{#                    {% include 'products/snippets/card-et.html' with  instance=obj%}#}
+{#                </div>#}
+{#            <a href= "{{ obj.get_absolute_url }}"> {{ obj.title }}</a><br/>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#        </div>#}
+{#    </div>#}
+{#{% endblock %}#}

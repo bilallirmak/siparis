@@ -200,6 +200,7 @@ class SalesView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(SalesView, self).get_context_data(*args, **kwargs)
+        print('asfafafafasfa', context)
         # two_week_ago = timezone.now() - datetime.timedelta(days=14)
         # now = timezone.now()
         # qs = Order.objects.all().by_range(start_date=two_week_ago, end_date=now)

@@ -46,7 +46,7 @@
 
 
 
-                        <li><a rel="prettyPhoto" class="navbar-link" href="{% url 'contact' %}?iframe=true&height=480&width=400">İletşim</a></li>
+                        <li><a rel="prettyPhoto" class="navbar-link" href="{% url 'contact' %}?iframe=true&height=480&width=400">İletişim</a></li>
                         {% if not request.user.is_authenticated  %}
                             <li><a class="{% if request.path == login_url%}active{%endif %}"  href="{{ login_url }}">Giriş Yap</a></li>
                             <li><a class="{% if request.path == register_url%}active{%endif %}" href="{{ register_url }}">Üye Ol</a></li>

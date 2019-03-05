@@ -13,7 +13,7 @@ from carts.models import Cart
 try:
     locale.setlocale(locale.LC_ALL, "tr")
 except locale.Error:
-    locale.setlocale(locale.LC_ALL, "tr_TR.utf8")
+    pass
 class SalesAjaxView(View):
     def get(self, request, *args, **kwargs):
         data = {}

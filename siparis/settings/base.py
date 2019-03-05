@@ -26,7 +26,7 @@ SECRET_KEY = 'xv2+@0&)8$$51lpyj=s!7-5bfg)1+c03h2%r3hi3j6jznf3-zd'
 # DEBUG = True
 
 # ALLOWED_HOSTS = ['inciregemutfak.site', 'www.inciregemutfak.site', '142.93.237.83']
-ALLOWED_HOSTS = ['inciregemutfak.site', 'www.inciregemutfak.site', '142.93.237.83']
+ALLOWED_HOSTS = []
 
 # Application definition
 

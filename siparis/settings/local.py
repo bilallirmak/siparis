@@ -1,6 +1,6 @@
 from siparis.settings import *
 
-DEBUG = False
+DEBUG = True
 
 DATABASES = {
     'default': {
@@ -9,9 +9,11 @@ DATABASES = {
     }
 }
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+
+]
 STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
-
-
 
 # """
 # Django settings for siparis project.
@@ -38,10 +40,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
 # SECRET_KEY = 'xv2+@0&)8$$51lpyj=s!7-5bfg)1+c03h2%r3hi3j6jznf3-zd'
 #
 # # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
+# DEBUG = True
 #
 # # ALLOWED_HOSTS = ['inciregemutfak.site', 'www.inciregemutfak.site', '142.93.237.83']
-# ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = []
 #
 # # Application definition
 #
@@ -185,13 +187,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
 #
 # AUTHENTICATION_BACKENDS = ['accounts.backend.EmailBackend',]
 #
-#
-# CORS_REPLACE_HTTPS_REFERER = True
-# HOST_SCHEME = "https://"
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_SECONDS = 1000000
-# SECURE_FRAME_DENY = True
+# CORS_REPLACE_HTTPS_REFERER = False
+# HOST_SCHEME = "http://"
+# SECURE_PROXY_SSL_HEADER = None
+# SECURE_SSL_REDIRECT = False
+# SESSION_COOKIE_SECURE = False
+# CSRF_COOKIE_SECURE = False
+# SECURE_HSTS_SECONDS = None
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+# SECURE_FRAME_DENY = False

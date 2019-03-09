@@ -56,6 +56,7 @@ body
 	font-family: 'Raleway', 'Open-Sans', sans-serif;
 	overflow-x: hidden;
 	font-size: 14px;
+	background-image: url(/static/img/fabric-effect-white.png);
 }
 
 
@@ -168,10 +169,50 @@ body
 	background-repeat: no-repeat;
     background-position: center;
 }
+.search-form .input-group .form-control {
+	background: transparent;
+	border: 1px solid #000000;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	height: 30px;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form{
+	border-color: #000000 !important;
+}
+
+.search-form .input-group .btn.btn-default {
+	background: transparent;
+	border-top: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	border-right: 1px solid #000000;
+	border-left:none;
+	outline: none;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	margin-left:1px;
+	height:30px;
+}
+
+.search-form .input-group .form-control::placeholder {
+	color: #000000;
+}
+
 
 .form-control {
 	border-radius: 0px;
 	margin-bottom: 25px;
+	color: #000000;
+}
+
+.form-control:focus {
+	color: #000000;
+}
+
+.input-group .btn.btn-default{
+	/*background-image: url(/static/img/fabric-effect-white.png);*/
+	/*border:1px solid #6b903f;*/
+	color: #000000;
 }
 
 input.empty, textarea.empty {
@@ -202,6 +243,7 @@ input.empty, textarea.empty {
 .custom-navbar-default
 {
 	background-color: #8bc34a;
+	background-image: url(/static/img/fabric-effect.png);
 	border: 0px;
 	margin: 0px;
 	border-radius: 0px;
@@ -216,7 +258,7 @@ input.empty, textarea.empty {
 }
 .navbar-default .navbar-nav>li>a
 {
-	color: #5c9233;
+	color: #000000;
 	text-transform: uppercase;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
@@ -226,6 +268,7 @@ input.empty, textarea.empty {
 	text-align: center;
 
 }
+
 .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover
 {
 	color: #fff;
@@ -259,8 +302,9 @@ input.empty, textarea.empty {
 }
 
 .navbar-default .navbar-collapse {
-	border-color: #669D38;
+	border-color: #000000;
 	background-color: #8BC34A;
+	background-image: url(/static/img/fabric-effect.png);
 }
 
 /*-----------------------------------------------
@@ -271,10 +315,6 @@ nav.navbar.shrink {
 	max-height: 62px;
   	padding: 12px 0px;
   	transition: all 0.3s ease-in-out;
-  	-webkit-transition: all 0.3s ease-in-out;
-  	-moz-transition: all 0.3s ease-in-out;
-  	-ms-transition: all 0.3s ease-in-out;
-  	-o-transition: all 0.3s ease-in-out;
 }
 
 nav.shrink a {
@@ -305,21 +345,24 @@ nav.shrink .navbar-toggle {
 }
 .header-content
 {
+	width: 100%;
 	margin-top: 30vh;
 	display: inline-block;
+	text-align: center;
 }
 .header-title, .header-sub-title
 {
 	font-family: 'Roboto', sans-serif;
 	text-transform: uppercase;
-	color: #333;
+	color: #FFFFFF;
 }
 .header-title
 {
-	font-size: 112px;
+	font-size: 84px;
 	font-weight: 100;
 	margin-bottom: 0px;
 	line-height: 1;
+	background: rgba(0, 0, 0, 0.5);
 }
 .header-sub-title
 {
@@ -333,18 +376,18 @@ nav.shrink .navbar-toggle {
 }
 .owl-carousel .owl-wrapper, .owl-carousel .owl-item:nth-child(1) .item
 {
-	background: url('/static/img/1.jpg');
+	background: url('/static/img/sli-1.jpg');
 	background-size: cover;
 	background-position: bottom;
 }
 .owl-carousel .owl-wrapper, .owl-carousel .owl-item:nth-child(2) .item
 {
-	background: url('/static/img/2.jpg');
+	background: url('/static/img/sli-2.jpg');
 	background-size: cover;
 }
 .owl-carousel .owl-wrapper, .owl-carousel .owl-item:nth-child(3) .item
 {
-	background: url('/static/img/3.jpg');
+	background: url('/static/img/sli-3.jpg');
 	background-size: cover;
 }
 .owl-theme .owl-controls .owl-buttons div
@@ -360,13 +403,15 @@ nav.shrink .navbar-toggle {
 	opacity: 1;
 	margin: 0px;
 	transition: all .4s;
-	background: #8bc34a;
+	background-color: #8bc34a;
+	background-image: url(/static/img/fabric-effect.png);
 	color: #fff;
 }
 .owl-theme .owl-controls .owl-buttons div:hover
 {
-	color: #000;
-	background: #fff;
+	background-image: url(/static/img/fabric-effect.png);
+	color: #fff;
+	background-color: #4a923c;
 }
 .owl-prev
 {
@@ -789,8 +834,16 @@ footer a:hover
 
 
 /*------------------------------  for extra-small (mobile) screen -------------------------*/
+@media (min-width: 769px) {
+	#big-group {
+		display: none;
+	}
+}
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
+	#small-search{
+		display: none;
+	}
 	.custom-navbar-default {
 		padding: 15px 0px;
 	}
@@ -904,4 +957,44 @@ footer a:hover
 	.btn-reservation {
 		padding: 10px;
 	}
+}
+
+.section-title{
+	background-image: url(/static/img/fabric-effect.png) !important;
+	background-color: #8bc34a;
+}
+
+.color-bg {
+		background-image: url(/static/img/fabric-effect.png) !important;
+}
+
+
+
+.search-form #small-group .form-control-2{ /* Bu yukarıdakinin biraz daha şekillisi... */
+transition: width 0.8s;
+width: 50px;
+border-radius: 10px;
+background: url(/static/img/search.png) no-repeat;
+height:30px;
+background-color: transparent;
+border: 1px solid transparent;
+background-position:28px;
+transition: all 0.5s ease-in-out 0s;
+	color: transparent;
+}
+.search-form #small-group .form-control-2:focus{
+width: 140px;
+	padding-right: 80px;
+	background-position:118px;
+border: 1px solid #000;
+transition: all 0.5s ease-in-out 0s;
+	color: #000000;
+}
+.search-form #small-group .form-control-2::placeholder {
+	/*color: #000000;*/
+	color: transparent;
+}
+#small-search{
+	margin-top:-7px;
+	margin-right: -10px;
 }

@@ -80,28 +80,31 @@
                 var currentUrl = window.location.href
 
                 var refreshCartUrl = "/api/cart"
-                var refreshCartMethod = "GET";
+                var refreshCartMethod = "GET"
                 var data = {}
+
                 $.ajax({
                     url: refreshCartUrl,
                     method: refreshCartMethod,
                     data: data,
+
                     success: function(data){
 
                         var hiddenCartItemRemoveForm = $(".cart-item-remove-form")
                         if (data.products.length > 0){
                             productRows.html(" ")
                             i = data.products.length
-                            $.each(data.products, function(index, value){
+                            $.each(data.products,  function(index, value){
                                 console.log(value)
                                 var newCartItemRemove = hiddenCartItemRemoveForm.clone()
                                 newCartItemRemove.css("display", "block")
                                 // newCartItemRemove.removeClass("hidden-class")
                                 newCartItemRemove.find(".cart-item-product-id").val(value.id)
-                                cartBody.prepend("<tr><th scope=\"row\">" + i + "</th><td><a href=''" + value.url + "'>" + value.name + "</a>" + newCartItemRemove.html() + "</td><td>" + value.price + "</td></tr>")
+                                cartBody.prepend("<tr><th scope=\"row\">" + i + "</th><td><a href=''" + value.url + "'>" + value.name + "</a>" + newCartItemRemove1.html() + "</td> <td>" + value.quantity + "</td><td>" + value.line_total + "</td></tr>")
                                 i --
+                                 // cartBody.find(".cart-total").text(value.total)
                             })
-                            cartBody.find(".cart-subtotal").text(data.subtotal)
+                            // cartBody.find(".cart-subtotal").text(data.subtotal)
                             cartBody.find(".cart-total").text(data.total)
                         } else {
                             window.location.href = currentUrl
@@ -115,6 +118,5 @@
                 })
 
             }
-
  })
 

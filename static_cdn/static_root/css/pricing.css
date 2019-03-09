@@ -43,7 +43,7 @@
 
 #filter-list li {
 	/*font-weight: bold;*/
-	color: #3d7024 !important;
+	color: #3d7024;
 	display: inline-block;
 	width: auto;
 	padding: 6px 10px;
@@ -67,7 +67,7 @@
 	/*font-weight: bold;*/
 	/*background: #D4CECC;*/
 	border-bottom: 3px ridge #fff;
-	color: #fff !important;
+	color: #fff;
 }
 
 
@@ -120,6 +120,7 @@
 }
 #menu-pricing .item img {
   max-width: 100%;
+	width: 100%;
 }
 
 @media (min-width: 991px) {
@@ -152,22 +153,49 @@
 .menu-price li a .menu-desc {
 	position: absolute;
 	font-size: 14px;
-	background: rgba(139, 195, 74, 0.56);
+	background: rgba(0, 0, 0, 0.35);
 	width: 100%;
 	height: 100%;
-	top: 0px;
+	top: 0;
 	left: -100%;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease-in-out;
-	-o-transition: all 0.3s ease-in-out;
-	-ms-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;
 }
 
-.menu-price li a .menu-desc span h3 {
+
+ @media screen and (min-width: 501px) {
+   .menu-price li a .menu-desc span h3[class="sabit-desc"] {
+	display: none;
+}
+
+.menu-price li a .menu-desc span h3[class="hareket-desc"] {
 	font-size: 30px;
 	margin-bottom: 15px;
+	left:0;
+	right: 0;
+	top: 0;
 }
+}
+
+@media screen and (max-width: 500px) {
+   .menu-price li a .menu-desc span h3[class="sabit-desc"] {
+	font-size: 15px;
+	top:0;
+	left: 100%;
+	position: relative;
+	background: rgb(0,0,0,0.35);
+	padding: 4px 0px;
+}
+
+.menu-price li a .menu-desc span h3[class="hareket-desc"] {
+	font-size: 15px;
+	margin-bottom: 15px;
+	left:0;
+	right: 0;
+	top: 0;
+	position: absolute;
+}
+}
+
 
 .menu-price li a:hover .menu-desc {
 	left: 0px;
@@ -177,6 +205,7 @@
 	display: block;
 	color: rgba(255,255,255,0.9);
 	font-size: 14px;
-  	padding: 22% 20px;
+    padding-top: 10px;
+  	/*padding: 22% 10px;*/
   	line-height: 23px;
 }

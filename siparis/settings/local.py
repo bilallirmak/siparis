@@ -17,7 +17,7 @@ STATICFILES_DIRS = [
 # MEDIA_ROOT = os.path.join(BASE_DIR, "static_cdn", "media_root")
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
-MEDIA_ROOT = os.path.join(BASE_DIR, "media", "media_root")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # """
 # Django settings for siparis project.

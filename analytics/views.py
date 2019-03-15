@@ -9,7 +9,10 @@ from django.shortcuts import render
 from orders.models import Order
 from django.utils import timezone
 from addresses.models import Address
-from carts.models import Cart
+from carts.models import Cart, CartItem
+import pandas as pd
+import numpy as np
+from django_pandas.io import read_frame
 try:
     locale.setlocale(locale.LC_ALL, "tr")
 except locale.Error:
@@ -62,44 +65,35 @@ class SalesAjaxView(View):
 
 
             liste =[]
+            adListe=[]
+            qu_list = []
             if request.GET.get('type') == 'product':
-                carts = Order.objects.all().not_created()
-                for product in carts:
-                    liste.append(str(product.cart))
-
-                liste2 = []
-                metin = ""
-
-                for i in liste:
-                    metin = metin + str(i)
-
-                lite = metin.split(',')
-
-                kume = set()
-                for i in lite:
-                    kume.add(i)
-                kume = list(kume)
-                yedek_kume = kume
-                datas = []
-                for j in kume:
-                    datas.append(lite.count(j))
-                datas_yedek = datas
-
-                veriler = []
-                etiketler = []
-                for x in range(5):
-                    maxFind = max(datas)
-                    findIndex = datas.index(maxFind)
-                    findItemValue = datas[findIndex]
-                    findItem = kume[findIndex]
-                    veriler.append(findItemValue)
-                    etiketler.append(findItem)
-
-                    kume.pop(findIndex)
-                    datas.pop(findIndex)
-
-                data['labels'] = etiketler
-                data['data'] = veriler
+                carts = CartItem.objects.all()
+                df = read_frame(carts)
+                # for w in df['quantity']:
+                #     qu_list.append(w)
+                # a = 0
+                # for name in df['product']:
+                #     is_hol = df['product'] == name
+                #     df_try = df[is_hol]
+                #     df.append([df_try] * qu_list[a], ignore_index=True, commit = True)
+                #
+                #     a += 1
+                # print('AKKK',df['product'])
+                # # print(df.columns)
+                # # df['product'].value_counts())
+                values = df['product'].value_counts()
+                # print(values)
+                tip = values.get_values()
+                tip = list(tip)
+                # print(tip)
+                for i in tip:
+                    print("aaaaaaaaaaaa")
+                    liste.append(int(i))
+                # veriler = tip
+                etiketler = list(values.index)
+                data['labels'] = etiketler[:5]
+                data['data'] = liste[:5]
                 data['ctip'] = 'bar'
                 data['etiket'] = 'Satışlar(Adet)'
 

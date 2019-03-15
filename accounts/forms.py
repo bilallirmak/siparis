@@ -100,6 +100,7 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', "last_name", 'email',)
+        # fields['username'].widget.attrs({'placeholder': 'Kullanıcı Adı'})
 
     def clean_password2(self):
         # Check that the two password entries match

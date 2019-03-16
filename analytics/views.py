@@ -6,17 +6,20 @@ from django.http import HttpResponse, JsonResponse
 from django.db.models import Sum, Count, Avg
 from django.views.generic import TemplateView, View
 from django.shortcuts import render
+from carts.models import CartItem
 from orders.models import Order
 from django.utils import timezone
 from addresses.models import Address
-from carts.models import Cart, CartItem
 import pandas as pd
 import numpy as np
-from django_pandas.io import read_frame
 try:
     locale.setlocale(locale.LC_ALL, "tr")
 except locale.Error:
     pass
+
+
+
+
 class SalesAjaxView(View):
     def get(self, request, *args, **kwargs):
         data = {}
@@ -64,117 +67,101 @@ class SalesAjaxView(View):
 
 
 
-            liste =[]
-            adListe=[]
-            qu_list = []
+
             if request.GET.get('type') == 'product':
-                carts = CartItem.objects.all()
-                df = read_frame(carts)
-                # for w in df['quantity']:
-                #     qu_list.append(w)
-                # a = 0
-                # for name in df['product']:
-                #     is_hol = df['product'] == name
-                #     df_try = df[is_hol]
-                #     df.append([df_try] * qu_list[a], ignore_index=True, commit = True)
-                #
-                #     a += 1
-                # print('AKKK',df['product'])
-                # # print(df.columns)
-                # # df['product'].value_counts())
-                values = df['product'].value_counts()
-                # print(values)
-                tip = values.get_values()
-                tip = list(tip)
-                # print(tip)
-                for i in tip:
-                    print("aaaaaaaaaaaa")
-                    liste.append(int(i))
-                # veriler = tip
-                etiketler = list(values.index)
-                data['labels'] = etiketler[:5]
-                data['data'] = liste[:5]
+                valueList = []
+                proDict = {}
+                for p in CartItem.objects.raw('''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC '''):
+                    print(p)
+                    proDict[p.product.title] = [p.deger]
+                df = pd.DataFrame(proDict)
+                columns = list(df.columns)
+                values = list(df.get_values().flat)
+                for i in values:
+                    valueList.append(int(i))
+                data['labels'] = columns[:5]
+                data['data'] = valueList[:5]
                 data['ctip'] = 'bar'
                 data['etiket'] = 'Satışlar(Adet)'
 
-            liste_n = []
-            if request.GET.get('type') == 'product-week':
-                new_carts = Order.objects.all().not_created().by_weeks_range(weeks_ago=5, number_of_weeks=5)
-                days = 7
-                start_date = timezone.now().today() - datetime.timedelta(days=days - 1)
-                datetime_l = []
-                etiketler1 = []
-                veriler1 = []
-
-                for x in range(0, days):
-                    new_time1 = start_date + datetime.timedelta(days=x)
-                    datetime_l.append(new_time1)
-
-                    # etiketler1.append(
-                    #     new_time.strftime("%a")
-                    # )
-
-                    new_q = new_carts.filter(updated_day=new_time1.day, updated_month=new_time1.month)
-                    # day_t = new_q.totals_data()["cart__products"] or 0
-                    # veriler1.append(day_t)
-                    for product in new_q:
-                        liste_n.append(str(product.cart))
-
-                liste2 = []
-                metin1 = ""
-
-                for a in liste_n:
-                    metin1 = metin1 + str(a)
-
-                lite1 = metin1.split(',')
-
-                kume1 = set()
-                for t in lite1:
-                    kume1.add(t)
-                kume1 = list(kume1)
-                yedek_kume1 = kume1
-                datas1 = []
-                for b in kume1:
-                    datas1.append(lite1.count(b))
-                datas_yedek = datas1
-
-                print(datas1)
-                try:
-                    for l in range(5):
-                        maxFind = max(datas1)
-                        print(maxFind)
-                        findIndex = datas1.index(maxFind)
-                        findItemValue = datas1[findIndex]
-                        findItem = kume1[findIndex]
-                        veriler1.append(findItemValue)
-                        etiketler1.append(findItem)
-                        kume1.pop(findIndex)
-                        datas1.pop(findIndex)
-                except:
-                    raise ValueError("Şu an için veri bulunmamakta")
-
-                    # days = 7
-                    # start_date = timezone.now().today() - datetime.timedelta(days=days - 1)
-                    # new_labels = []
-                    # new_datas = []
-                    # datetime_liste = []
-                    # for x in range(0, days):
-                    #     new_t = start_date + datetime.timedelta(days=x)
-                    #     datetime_liste.append(new_time)
-                    #
-                    #     new_labels.append(
-                    #         new_time.strftime("%a")
-                    #     )
-                    #     new_q = new_carts.filter(updated_day=new_t.day, updated_month=new_t.month)
-                    #     day_total = new_q.totals_data()["cart__products"] or 0
-                    #     new_datas.append(
-                    #         day_total
-                    #     )
-
-                data['labels'] = etiketler1
-                data['data'] = veriler1
-                data['ctip'] = 'bar'
-                data['etiket'] = 'Satışlar(adet)'
+            # liste_n = []
+            # if request.GET.get('type') == 'product-week':
+            #     new_carts = Order.objects.all().not_created().by_weeks_range(weeks_ago=5, number_of_weeks=5)
+            #     days = 7
+            #     start_date = timezone.now().today() - datetime.timedelta(days=days - 1)
+            #     datetime_l = []
+            #     etiketler1 = []
+            #     veriler1 = []
+            #
+            #     for x in range(0, days):
+            #         new_time1 = start_date + datetime.timedelta(days=x)
+            #         datetime_l.append(new_time1)
+            #
+            #         # etiketler1.append(
+            #         #     new_time.strftime("%a")
+            #         # )
+            #
+            #         new_q = new_carts.filter(updated_day=new_time1.day, updated_month=new_time1.month)
+            #         # day_t = new_q.totals_data()["cart__products"] or 0
+            #         # veriler1.append(day_t)
+            #         for product in new_q:
+            #             liste_n.append(str(product.cart))
+            #
+            #     liste2 = []
+            #     metin1 = ""
+            #
+            #     for a in liste_n:
+            #         metin1 = metin1 + str(a)
+            #
+            #     lite1 = metin1.split(',')
+            #
+            #     kume1 = set()
+            #     for t in lite1:
+            #         kume1.add(t)
+            #     kume1 = list(kume1)
+            #     yedek_kume1 = kume1
+            #     datas1 = []
+            #     for b in kume1:
+            #         datas1.append(lite1.count(b))
+            #     datas_yedek = datas1
+            #
+            #     print(datas1)
+            #     try:
+            #         for l in range(5):
+            #             maxFind = max(datas1)
+            #             print(maxFind)
+            #             findIndex = datas1.index(maxFind)
+            #             findItemValue = datas1[findIndex]
+            #             findItem = kume1[findIndex]
+            #             veriler1.append(findItemValue)
+            #             etiketler1.append(findItem)
+            #             kume1.pop(findIndex)
+            #             datas1.pop(findIndex)
+            #     except:
+            #         raise ValueError("Şu an için veri bulunmamakta")
+            #
+            #         # days = 7
+            #         # start_date = timezone.now().today() - datetime.timedelta(days=days - 1)
+            #         # new_labels = []
+            #         # new_datas = []
+            #         # datetime_liste = []
+            #         # for x in range(0, days):
+            #         #     new_t = start_date + datetime.timedelta(days=x)
+            #         #     datetime_liste.append(new_time)
+            #         #
+            #         #     new_labels.append(
+            #         #         new_time.strftime("%a")
+            #         #     )
+            #         #     new_q = new_carts.filter(updated_day=new_t.day, updated_month=new_t.month)
+            #         #     day_total = new_q.totals_data()["cart__products"] or 0
+            #         #     new_datas.append(
+            #         #         day_total
+            #         #     )
+            #
+            #     data['labels'] = etiketler1
+            #     data['data'] = veriler1
+            #     data['ctip'] = 'bar'
+            #     data['etiket'] = 'Satışlar(adet)'
 
         return JsonResponse(data)
 

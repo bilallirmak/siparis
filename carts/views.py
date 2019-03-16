@@ -100,7 +100,7 @@ def cart_detail_api_view(request):
             # cart_obj.filter(cart_obj=kc).update(line_total=Decimal(z))
             # t = CartItem.objects.get(cart=cart_obj.id)
             # t.line_total = Decimal(z)
-            print (cart_obj.id)
+            print(cart_obj.id)
             # t.save()
             da += 1
         else:

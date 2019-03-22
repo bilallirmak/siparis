@@ -65,24 +65,47 @@ class SalesAjaxView(View):
                     data['data'].append(sales_total)
                     current -= 1
 
-
-
-
+            liste = []
             if request.GET.get('type') == 'product':
-                valueList = []
-                proDict = {}
-                for p in CartItem.objects.raw('''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC '''):
-                    print(p)
-                    proDict[p.product.title] = [p.deger]
-                df = pd.DataFrame(proDict)
-                columns = list(df.columns)
-                values = list(df.get_values().flat)
-                for i in values:
-                    valueList.append(int(i))
-                data['labels'] = columns[:5]
-                data['data'] = valueList[:5]
+
+                proList = []
+                for p in CartItem.objects.raw(
+                        '''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id'''):
+                    proList.append([p.deger, p.product.title])
+                print(proList)
+                proList = sorted(proList, reverse=True)
+
+                veriler = []
+                etiketler = []
+                sayac = 0
+                for i in proList:
+                    if sayac < 5:
+                        veriler.append(i[0])
+                        etiketler.append(i[1])
+                        sayac += 1
+                    else:
+                        pass
+
+                data['labels'] = etiketler[:5]
+                data['data'] = veriler[:5]
                 data['ctip'] = 'bar'
                 data['etiket'] = 'Satışlar(Adet)'
+
+            # if request.GET.get('type') == 'product':
+            #     valueList = []
+            #     proDict = {}
+            #     for p in CartItem.objects.raw('''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC '''):
+            #         print(p)
+            #         proDict[p.product.title] = [p.deger]
+            #     df = pd.DataFrame(proDict)
+            #     columns = list(df.columns)
+            #     values = list(df.get_values().flat)
+            #     for i in values:
+            #         valueList.append(int(i))
+            #     data['labels'] = columns[:5]
+            #     data['data'] = valueList[:5]
+            #     data['ctip'] = 'bar'
+            #     data['etiket'] = 'Satışlar(Adet)'
 
             # liste_n = []
             # if request.GET.get('type') == 'product-week':

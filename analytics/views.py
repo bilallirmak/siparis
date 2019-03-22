@@ -20,7 +20,7 @@ class SalesAjaxView(View):
 
 
                 proList = []
-                for p in CartItem.objects.raw('''SELECT *, SUM(quantity) AS deger FROM carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC'''):
+                for p in CartItem.objects.raw('''SELECT *, count(quantity) AS deger FROM carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC'''):
                     proList.append([p.deger, p.product.title])
                 # proList = sorted(proList, reverse=True)
 

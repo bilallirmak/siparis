@@ -6,6 +6,9 @@ from django.views.generic import TemplateView, View
 from carts.models import CartItem
 from orders.models import Order
 from django.utils import timezone
+import pandas as pd
+import numpy as np
+from django_pandas.io import read_frame
 try:
     locale.setlocale(locale.LC_ALL, "tr")
 except locale.Error:
@@ -15,30 +18,50 @@ class SalesAjaxView(View):
     def get(self, request, *args, **kwargs):
         data = {}
         if request.user.is_staff:
-            liste = []
+
             if request.GET.get('type') == 'product':
-
-
-                proList = []
-                for p in CartItem.objects.raw('''SELECT *, count(quantity) AS deger FROM carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC'''):
-                    proList.append([p.deger, p.product.title])
-                # proList = sorted(proList, reverse=True)
-
+                items = CartItem.objects.all()
+                df = read_frame(items)
+                # print(df.columns)
+                df_pivot = df.pivot(index='id', columns='product', values="quantity")
+                df_sum = df_pivot.sum().sort_values(ascending=False)
+                temp_values = list(df_sum.get_values())
                 veriler = []
-                etiketler = []
-                sayac = 0
-                for i in proList:
-                    if sayac < 5:
-                        veriler.append(i[0])
-                        etiketler.append(i[1])
-                        sayac += 1
-                    else:
-                        pass
+                for i in temp_values:
+                    veriler.append(int(i))
+
+                # print(temp_values)
+                etiketler = list(df_sum.index)
+                # print(etiketler)
 
                 data['labels'] = etiketler[:5]
                 data['data'] = veriler[:5]
                 data['ctip'] = 'bar'
                 data['etiket'] = 'Satışlar(Adet)'
+
+                # carts = CartItem.objects.all()
+                #
+                # proList = []
+                # for p in CartItem.objects.raw('''SELECT *, SUM (quantity) AS deger FROM carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC'''):
+                #     print(p.deger)
+                #     proList.append([p.deger, p.product.title])
+                # # proList = sorted(proList, reverse=True)
+                #
+                # veriler = []
+                # etiketler = []
+                # sayac = 0
+                # for i in proList:
+                #     if sayac < 5:
+                #         veriler.append(i[0])
+                #         etiketler.append(i[1])
+                #         sayac += 1
+                #     else:
+                #         pass
+                #
+                # data['labels'] = etiketler[:5]
+                # data['data'] = veriler[:5]
+                # data['ctip'] = 'bar'
+                # data['etiket'] = 'Satışlar(Adet)'
         return JsonResponse(data)
 class SalesView(LoginRequiredMixin, TemplateView):
     template_name = 'analytics/sales.html'

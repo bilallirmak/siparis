@@ -67,10 +67,9 @@ class SalesAjaxView(View):
 
 
 
-
-            if request.GET.get('type') == 'product':
-                valueList = []
-                proDict = {}
+            valueList = []
+            proDict = {}
+            if request.GET.get('type') == 'product': 
                 for p in CartItem.objects.raw('''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC '''):
                     print(p)
                     proDict[p.product.title] = [p.deger]

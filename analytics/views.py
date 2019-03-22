@@ -15,48 +15,6 @@ class SalesAjaxView(View):
     def get(self, request, *args, **kwargs):
         data = {}
         if request.user.is_staff:
-            qs = Order.objects.all().by_weeks_range(weeks_ago=5, number_of_weeks=5)
-            if request.GET.get('type') == 'week':
-                days = 7
-                start_date = timezone.now().today() - datetime.timedelta(days=days-1)
-                datetime_list = []
-                labels = []
-                salesItems = []
-                for x in range(0, days):
-                    new_time = start_date + datetime.timedelta(days=x)
-                    datetime_list.append(new_time)
-
-                    labels.append(
-                        new_time.strftime("%a")
-                    )
-
-                    new_qs = qs.filter(updated__day=new_time.day, updated__month=new_time.month)
-                    day_total = new_qs.totals_data()['total__sum'] or 0
-
-                    salesItems.append(
-                        day_total
-                    )
-
-                data['labels'] = labels
-                data['data'] = salesItems
-                data['ctip'] = 'line'
-                data['etiket'] = 'Satışlar(TL)'
-
-            if request.GET.get('type') == '4weeks':
-                data['labels'] = ['Dört hafta önce', 'Üç hafta önce', "İki hafta önce", "Bir hafta önce",]
-                data['ctip'] = 'line'
-                data['etiket'] = 'Satışlar(TL)'
-                current = 5
-
-                data['data'] = []
-
-                for i in range(1, 5):
-                    new_qs = qs.by_weeks_range(weeks_ago=current, number_of_weeks=1)
-                    sales_total = new_qs.totals_data()['total__sum'] or 0
-                    data['data'].append(sales_total)
-                    current -= 1
-
-
             liste = []
             if request.GET.get('type') == 'product':
 
@@ -81,10 +39,6 @@ class SalesAjaxView(View):
                 data['ctip'] = 'bar'
                 data['etiket'] = 'Satışlar(Adet)'
         return JsonResponse(data)
-
-
-
-
 class SalesView(LoginRequiredMixin, TemplateView):
     template_name = 'analytics/sales.html'
     def dispatch(self, *args, **kwargs):

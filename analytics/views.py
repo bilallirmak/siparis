@@ -1,24 +1,15 @@
 import locale
-import random
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, JsonResponse
-from django.db.models import Sum, Count, Avg
 from django.views.generic import TemplateView, View
-from django.shortcuts import render
 from carts.models import CartItem
 from orders.models import Order
 from django.utils import timezone
-from addresses.models import Address
-import pandas as pd
-import numpy as np
 try:
     locale.setlocale(locale.LC_ALL, "tr")
 except locale.Error:
     pass
-
-
-
 
 class SalesAjaxView(View):
     def get(self, request, *args, **kwargs):
@@ -70,10 +61,8 @@ class SalesAjaxView(View):
             if request.GET.get('type') == 'product':
 
                 proList = []
-                for p in CartItem.objects.raw(
-                        '''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id'''):
+                for p in CartItem.objects.raw('''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC'''):
                     proList.append([p.deger, p.product.title])
-                print(proList)
                 proList = sorted(proList, reverse=True)
 
                 veriler = []
@@ -91,118 +80,6 @@ class SalesAjaxView(View):
                 data['data'] = veriler[:5]
                 data['ctip'] = 'bar'
                 data['etiket'] = 'Satışlar(Adet)'
-
-            # valueList = []
-            # proDict = {}
-            # if request.GET.get('type') == 'product':
-            #     for p in CartItem.objects.raw('''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC '''):
-            #         print(p)
-            #         proDict[p.product.title] = [p.deger]
-            #     df = pd.DataFrame(proDict)
-            #     columns = list(df.columns)
-            #     values = list(df.get_values().flat)
-            #     for i in values:
-            #         valueList.append(int(i))
-            #     data['labels'] = columns[:5]
-            #     data['data'] = valueList[:5]
-            #     data['ctip'] = 'bar'
-            #     data['etiket'] = 'Satışlar(Adet)'
-
-            # if request.GET.get('type') == 'product':
-            #     valueList = []
-            #     proDict = {}
-            #     for p in CartItem.objects.raw('''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC '''):
-            #         print(p)
-            #         proDict[p.product.title] = [p.deger]
-            #     df = pd.DataFrame(proDict)
-            #     columns = list(df.columns)
-            #     values = list(df.get_values().flat)
-            #     for i in values:
-            #         valueList.append(int(i))
-            #     data['labels'] = columns[:5]
-            #     data['data'] = valueList[:5]
-            #     data['ctip'] = 'bar'
-            #     data['etiket'] = 'Satışlar(Adet)'
-
-            # liste_n = []
-            # if request.GET.get('type') == 'product-week':
-            #     new_carts = Order.objects.all().not_created().by_weeks_range(weeks_ago=5, number_of_weeks=5)
-            #     days = 7
-            #     start_date = timezone.now().today() - datetime.timedelta(days=days - 1)
-            #     datetime_l = []
-            #     etiketler1 = []
-            #     veriler1 = []
-            #
-            #     for x in range(0, days):
-            #         new_time1 = start_date + datetime.timedelta(days=x)
-            #         datetime_l.append(new_time1)
-            #
-            #         # etiketler1.append(
-            #         #     new_time.strftime("%a")
-            #         # )
-            #
-            #         new_q = new_carts.filter(updated_day=new_time1.day, updated_month=new_time1.month)
-            #         # day_t = new_q.totals_data()["cart__products"] or 0
-            #         # veriler1.append(day_t)
-            #         for product in new_q:
-            #             liste_n.append(str(product.cart))
-            #
-            #     liste2 = []
-            #     metin1 = ""
-            #
-            #     for a in liste_n:
-            #         metin1 = metin1 + str(a)
-            #
-            #     lite1 = metin1.split(',')
-            #
-            #     kume1 = set()
-            #     for t in lite1:
-            #         kume1.add(t)
-            #     kume1 = list(kume1)
-            #     yedek_kume1 = kume1
-            #     datas1 = []
-            #     for b in kume1:
-            #         datas1.append(lite1.count(b))
-            #     datas_yedek = datas1
-            #
-            #     print(datas1)
-            #     try:
-            #         for l in range(5):
-            #             maxFind = max(datas1)
-            #             print(maxFind)
-            #             findIndex = datas1.index(maxFind)
-            #             findItemValue = datas1[findIndex]
-            #             findItem = kume1[findIndex]
-            #             veriler1.append(findItemValue)
-            #             etiketler1.append(findItem)
-            #             kume1.pop(findIndex)
-            #             datas1.pop(findIndex)
-            #     except:
-            #         raise ValueError("Şu an için veri bulunmamakta")
-            #
-            #         # days = 7
-            #         # start_date = timezone.now().today() - datetime.timedelta(days=days - 1)
-            #         # new_labels = []
-            #         # new_datas = []
-            #         # datetime_liste = []
-            #         # for x in range(0, days):
-            #         #     new_t = start_date + datetime.timedelta(days=x)
-            #         #     datetime_liste.append(new_time)
-            #         #
-            #         #     new_labels.append(
-            #         #         new_time.strftime("%a")
-            #         #     )
-            #         #     new_q = new_carts.filter(updated_day=new_t.day, updated_month=new_t.month)
-            #         #     day_total = new_q.totals_data()["cart__products"] or 0
-            #         #     new_datas.append(
-            #         #         day_total
-            #         #     )
-            #
-            #     data['labels'] = etiketler1
-            #     data['data'] = veriler1
-            #     data['ctip'] = 'bar'
-            #     data['etiket'] = 'Satışlar(adet)'
-
         return JsonResponse(data)
 
 
@@ -210,48 +87,24 @@ class SalesAjaxView(View):
 
 class SalesView(LoginRequiredMixin, TemplateView):
     template_name = 'analytics/sales.html'
-
     def dispatch(self, *args, **kwargs):
         user = self.request.user
         if not user.is_staff:
             return HttpResponse("İzin verilmedi", status=401)
-            # return render(self.request, '400.html',{})
-
         return super(SalesView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context = super(SalesView, self).get_context_data(*args, **kwargs)
         print('asfafafafasfa', context)
-        # two_week_ago = timezone.now() - datetime.timedelta(days=14)
-        # now = timezone.now()
-        # qs = Order.objects.all().by_range(start_date=two_week_ago, end_date=now)
         qs = Order.objects.all().by_weeks_range(weeks_ago=1, number_of_weeks=1)
-        # start_date = timezone.now().date() - datetime.timedelta(hours=24)
         start_date = timezone.now() + datetime.timedelta(hours=3)
         start_date = start_date.date()
-        # aa = timezone.now() - datetime.timedelta(days=28)
-        # bb = timezone.now() - datetime.timedelta(days=21)
-        # print(aa)
-        # print(bb)
         print(start_date)
-        # end_date = timezone.now().date() + datetime.timedelta(hours=12)
         end_date = timezone.now() + datetime.timedelta(hours=3)
         print(end_date)
         today_data = qs.by_range(start_date=start_date, end_date=end_date).get_sales_breakdown()
         context['today'] = today_data
         context['this_week'] = qs.by_weeks_range(weeks_ago=1, number_of_weeks=1).get_sales_breakdown()
         context['last_four_weeks'] = qs.by_weeks_range(weeks_ago=4, number_of_weeks=1).get_sales_breakdown()
-        # state_qs = Address.objects.filter(address_type="billing").aggregate(Count("state"))
-        # state_qs_count = Address.objects.filter(state="buca").aggregate(Count("state"))
-        # context['state'] = state_qs
-        # context['state_count'] = state_qs_count
-        # context['orders'] = qs
-        # context['recent_orders'] = qs.recent().not_refunded()
-        # context['recent_orders_data'] = context['recent_orders'].totals_data()
-        # context['recent_orders_cart_data'] = context['recent_orders'].cart_data()
-        # context['shipped_orders'] = qs.recent().not_refunded().by_status(status='shipped')
-        # context['paid_orders'] = qs.recent().not_refunded().by_status(status='paid')
-        # context['paid_orders_data'] = context['paid_orders'].totals_data()
-        # context['shipped_orders_data'] = context['shipped_orders'].totals_data()
         return context
 

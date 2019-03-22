@@ -65,6 +65,7 @@ class SalesAjaxView(View):
                     data['data'].append(sales_total)
                     current -= 1
 
+
             liste = []
             if request.GET.get('type') == 'product':
 
@@ -90,6 +91,22 @@ class SalesAjaxView(View):
                 data['data'] = veriler[:5]
                 data['ctip'] = 'bar'
                 data['etiket'] = 'Satışlar(Adet)'
+
+            # valueList = []
+            # proDict = {}
+            # if request.GET.get('type') == 'product':
+            #     for p in CartItem.objects.raw('''select product_id, sum(quantity) as deger, id from carts_cartitem GROUP BY carts_cartitem.product_id ORDER BY deger DESC '''):
+            #         print(p)
+            #         proDict[p.product.title] = [p.deger]
+            #     df = pd.DataFrame(proDict)
+            #     columns = list(df.columns)
+            #     values = list(df.get_values().flat)
+            #     for i in values:
+            #         valueList.append(int(i))
+            #     data['labels'] = columns[:5]
+            #     data['data'] = valueList[:5]
+            #     data['ctip'] = 'bar'
+            #     data['etiket'] = 'Satışlar(Adet)'
 
             # if request.GET.get('type') == 'product':
             #     valueList = []
